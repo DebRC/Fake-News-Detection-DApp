@@ -81,10 +81,11 @@ class SmartContract:
                 validator.stake+=(self.minStakeToValidate-self.penaltyStake)
                 # Decrease validator's rating
                 validator.rating-=float(os.getenv("RATING_CHANGE_FACTOR"))
+                
+                # Make sure rating does not go below the minimum rating
                 if validator.rating<int(os.getenv("MIN_RATING")):
                     validator.rating=int(os.getenv("MIN_RATING"))
-                # Make sure rating does not go below 0
-                validator.rating=max(validator.rating,0)
+                
                 # Update validator's validation stats
                 validator.updateValidations(False)
                 
