@@ -11,7 +11,7 @@ class Simulator:
     def __init__(self):
         self.blockchain=BlockChain()
         
-    def generateHonestValidators(self,n=10):
+    def generateVeryTrustWorthyValidators(self,n=10):
         # Generate n honest validators
         for _ in range(n):
             # Generate random id, expertise and stake
@@ -20,10 +20,24 @@ class Simulator:
             expertise=random.randint(1,int(os.getenv("CATEGORY_TYPES")))
             # Stake is a random number between 50 and 100
             stake=random.randint(50,100)
-            validator=Validator(id,expertise,stake)
+            validator=Validator(id,expertise,stake,0.9)
             # Add the validator to the blockchain
             self.blockchain.addValidator(validator)
-        print(f"{n} honest validators generated")
+        print(f"{n} very trust worthy validators generated")
+        
+    def generateTrustWorthyValidators(self,n=10):
+        # Generate n honest validators
+        for _ in range(n):
+            # Generate random id, expertise and stake
+            id=random.randint(1,10000)
+            # Expertise is a random number between 1 and CATEGORY_TYPES
+            expertise=random.randint(1,int(os.getenv("CATEGORY_TYPES")))
+            # Stake is a random number between 50 and 100
+            stake=random.randint(50,100)
+            validator=Validator(id,expertise,stake,0.7)
+            # Add the validator to the blockchain
+            self.blockchain.addValidator(validator)
+        print(f"{n} trust worthy validators generated")
     
     def generateMaliciousValidators(self,n=10):
         # Generate n malicious validators
@@ -33,7 +47,7 @@ class Simulator:
             expertise=random.randint(1,int(os.getenv("CATEGORY_TYPES")))
             stake=random.randint(50,100)
             malicious=True
-            validator=Validator(id,expertise,stake,malicious)
+            validator=Validator(id,expertise,stake,0)
             # Add the validator to the blockchain
             self.blockchain.addValidator(validator)
         print(f"{n} malicious validators generated")
@@ -55,6 +69,7 @@ class Simulator:
             print(f"Smart Contract (ID={id}) already exists")
             return
         print(f"Smart Contract (ID={id}) for News Validity added in blockchain")
+        return id
         
     def printSmartContracts(self):
         # Print all smart contracts

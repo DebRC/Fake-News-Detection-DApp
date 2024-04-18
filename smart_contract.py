@@ -50,17 +50,17 @@ class SmartContract:
             
             # If vote is positive, validator votes the news is true
             if vote>0:
-                legitVotes+=vote
+                legitVotes+=min(vote,int(os.getenv("MAX_VOTE")))
                 votes[validator]=True
             
             # If vote is negative, validator votes the news is fake
             else:
-                fakeVotes+=vote
+                fakeVotes+=min(abs(vote),int(os.getenv("MAX_VOTE")))
                 votes[validator]=False
         
         # If more legit votes than fake,
         # marks the news as legit
-        if legitVotes>abs(fakeVotes):
+        if legitVotes>fakeVotes:
             news.validatedAsLegit=True
         else:
             news.validatedAsLegit=False
@@ -80,7 +80,9 @@ class SmartContract:
                 # Refund the rest stake
                 validator.stake+=(self.minStakeToValidate-self.penaltyStake)
                 # Decrease validator's rating
-                validator.rating-=int(os.getenv("RATING_CHANGE_FACTOR"))
+                validator.rating-=float(os.getenv("RATING_CHANGE_FACTOR"))
+                if validator.rating<int(os.getenv("MIN_RATING")):
+                    validator.rating=int(os.getenv("MIN_RATING"))
                 # Make sure rating does not go below 0
                 validator.rating=max(validator.rating,0)
                 # Update validator's validation stats
@@ -107,7 +109,9 @@ class SmartContract:
                 # Along with rewards stake, refund the minStakeToValidate 
                 # and distribute the penalty stake per validator collected
                 validator.stake+=(self.minStakeToValidate+self.rewardStake+penaltyStakeRewardPerVoter)
-                validator.rating+=int(os.getenv("RATING_CHANGE_FACTOR"))
+                validator.rating+=float(os.getenv("RATING_CHANGE_FACTOR"))
+                if validator.rating>int(os.getenv("MAX_RATING")):
+                    validator.rating=int(os.getenv("MAX_RATING"))
                 validator.updateValidations(True)
     
     def __str__(self):
