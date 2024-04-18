@@ -11,19 +11,19 @@ class Validator:
         self.expertise_category = expertise_category
         self.stake = stake
         self.trustworthiness = trustworthiness
-        self.rating = int(os.getenv("DEFAULT_RATING"))
+        self.rating = float(os.getenv("DEFAULT_RATING"))
         self.correct_validations = 0
         self.incorrect_validations = 0
         
     def validateNews(self, news: News):
         # Default vote should be 1
         # Vote Range [0,2]
-        vote=self.rating/int(os.getenv("DEFAULT_RATING"))
+        vote=self.rating/float(os.getenv("DEFAULT_RATING"))
         
         # If news category is same as validator's expertise
         # vote should be counted as doubled
         if news.category==self.expertise_category:
-            vote=2*vote
+            vote=float(os.getenv("EXPERTISE_VOTE_MULTIPLIER"))*vote
         if news.legit:
             return choices([vote, -vote], [self.trustworthiness, 1-self.trustworthiness])[0]
         else:

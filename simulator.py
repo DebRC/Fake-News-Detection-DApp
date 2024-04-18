@@ -88,6 +88,11 @@ class Simulator:
             return
         print(f"News (ID={id}) Validated")
         
+    def deleteAllValidators(self):
+        # Delete all validators
+        self.blockchain.validators={}
+        print("All validators deleted")
+        
     def printNews(self, newsID):
         # Print the news validity
         print(self.blockchain.getNewsValidity(newsID))
@@ -95,4 +100,9 @@ class Simulator:
     def printAllNews(self):
         # Print the news validity
         for newsID in self.blockchain.news:
-            print(self.blockchain.news[newsID])
+            news: News=self.blockchain.news[newsID]
+            print(news,end=" : ")
+            if news.legit:
+                print("False Vote% =",news.fakeVotes/(news.legitVotes+news.fakeVotes))
+            else:
+                print("False Vote% =",news.legitVotes/(news.legitVotes+news.fakeVotes))
