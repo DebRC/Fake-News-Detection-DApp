@@ -215,8 +215,7 @@ contract Validator {
     
     // Function to validate news
     function validateNews(News memory news) public view returns (int) {
-        // Default vote should be 1
-        // Vote Range [0,2]
+        // Default vote should be 1 when rating is default
         int vote = int(rating) / int(DEFAULT_RATING);
         
         // If news category is same as validator's expertise
@@ -224,6 +223,7 @@ contract Validator {
         if (news.category == expertiseCategory) {
             vote *= int(EXPERTISE_VOTE_MULTIPLIER);
         }
+        vote=vote*(validatorStake/TotalStake);
         // If news is legit,
         // honest validators should vote for positive
         if (news.legit) {
