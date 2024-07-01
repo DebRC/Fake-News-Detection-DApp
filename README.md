@@ -1,5 +1,5 @@
 # Fake-News-Detection
-A decentralised application written in Python and Solitude, to detect authenticity of news with capability of countering various attacks and incentivisation of rational voters.
+A decentralised application written in Python and Solidity, to detect authenticity of news with capability of countering various attacks and incentivisation of rational voters.
 
 ## Features
 * Anyone is allowed to request the DApp for fact-checking a news article or item.
@@ -17,7 +17,7 @@ A decentralised application written in Python and Solitude, to detect authentici
 * The entire code of the application is inside `lib` folder.
 * For simulation purpose the blockchain implemented is not a real blockchain simulator but just a structure to add block instantaneuosly with no form of layer 1 attacks.
 * `blockchain.py` contains the structure of a basic blockchain which can add smart contract in the chain, signs up validators for news verification e.t.c.
-* `smart_contract.py` contains the code for the fake news detection contract. It is just the Python translation of the Solitude code `smart_contract.sol`. 
+* `smart_contract.py` contains the code for the fake news detection contract. It is just the Python translation of the Solidity code `smart_contract.sol`. 
 * `simulator.py` contains the code for the entire simulation process with registration of validators, uploading of news, verification results of news e.t.c.
 * `main.py` is the entry-point of the simulation which can be used to simulate as per need.
 * `Report.pdf` contains a performance analysis of both the simulators with detailed explanation.
